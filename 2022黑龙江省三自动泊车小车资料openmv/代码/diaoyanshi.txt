@@ -1,0 +1,68 @@
+from pyb import Pin, Timer
+import time
+inverse_left=False  #change it to True to inverse left wheel
+inverse_right=False #change it to True to inverse right wheel
+
+ain1 =  Pin('P0', Pin.OUT_PP)
+ain2 =  Pin('P1', Pin.OUT_PP)
+
+ain1.low()
+ain2.low()
+
+
+pwma = Pin('P6')
+tim = Timer(2, freq=1000)
+ch1 = tim.channel(1, Timer.PWM, pin=pwma)
+ch1.pulse_width_percent(0)
+
+def run(left_speed):
+    if inverse_left==True:
+        left_speed=(-left_speed)
+
+    if left_speed < 0:
+        ain1.low()
+        ain2.high()
+    else:
+        ain1.high()
+        ain2.low()
+    ch1.pulse_width_percent(int(abs(left_speed)))
+
+
+while True:
+	if(1):
+		run(40)
+        print('1')
+        time.sleep_ms(100)#前行一会
+        time.sleep_ms(100)
+        time.sleep_ms(100)
+        run(0)
+        s1.angle(68)#打死
+        print('2')
+        run(-40)
+        time.sleep_ms(100)#向后倒一会
+        time.sleep_ms(100)
+        time.sleep_ms(100)
+        s1.angle(48)#回正
+        print('3')
+        time.sleep_ms(100)#再向后倒一会
+        time.sleep_ms(100)
+        time.sleep_ms(100)
+        run(0)#停止
+        print('4')
+        #beep.high()#停车蜂鸣器响一下
+        time.sleep_ms(500)
+        time.sleep_ms(500)
+        beep.low()
+        run(40)#向前走
+        print('5')
+        time.sleep_ms(100)#向前走一会
+        time.sleep_ms(100)
+        time.sleep_ms(100)
+        run(0)
+        s1.angle(68)#打死
+        print('6')
+        run(40)
+        time.sleep_ms(100)#再向前走一会
+        time.sleep_ms(100)
+        time.sleep_ms(100)
+		run(0)
